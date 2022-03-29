@@ -27,23 +27,23 @@ public class Users {
 	@Id
 	@Column(name = "user_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int id;
+	private int id;
 
 	@NotBlank
-	String username;
+	private String username;
 
 	@NotBlank
-	String pwd;
+	private String pwd;
 
 	@Column(unique = true)
 	@Email
-	String email;
+	private String email;
 
 	@NotBlank
-	String fName;
+	private String fName;
 
 	@NotBlank
-	String lName;
+	private String lName;
 
 	public Users(@NotBlank String username, @NotBlank String pwd, @Email String email, @NotBlank String fName,
 			@NotBlank String lName) {

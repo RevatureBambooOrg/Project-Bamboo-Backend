@@ -1,10 +1,10 @@
 package com.revature;
 
-import com.revature.dao.UsersDao;
 import com.revature.model.Users;
+import com.revature.service.UserService;
 
 public class Driver {
-	private static UsersDao cdao = new UsersDao();
+	private static UserService cdao = new UserService();
 
 	public static void main(String[] args) {
 
@@ -16,12 +16,14 @@ public class Driver {
 		c1.setEmail("Myemail@email.com");
 		c1.setUsername("SuperkoolMan");
 		c1.setPwd("LetMeIn");
-
 		System.out.println("Succesfully created");
 
-		cdao.insert(c1);
+		cdao.register(c1);
 
 		System.out.println("Succesfully inserted Users");
 
+		String s2 = cdao.login(c1);
+
+		System.out.println(s2);
 	}
 }

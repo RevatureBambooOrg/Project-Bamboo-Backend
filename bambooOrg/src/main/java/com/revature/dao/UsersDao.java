@@ -1,47 +1,46 @@
 package com.revature.dao;
 
 import java.util.List;
+import java.util.Optional;
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import com.revature.data.UserRepository;
 import com.revature.model.Users;
-import com.revature.util.HibernateUtil;
 
 public class UsersDao {
 
+	@Autowired
+	private UserRepository userRepo;
+
 	public int insert(Users user) {
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
-		int pk = (int) ses.save(user);
-		tx.commit();
-		return pk;
+		Users i = userRepo.save(user);
+		return i.getId();
 	}
 
 	public List<Users> selectAll() {
-		Session ses = HibernateUtil.getSession();
-		return ses.createQuery("from SuperPrison", Users.class).list();
+		return userRepo.findAll();
 	}
 
 	public Users selectById(int ID) {
-		Session ses = HibernateUtil.getSession();
-		return ses.get(Users.class, ID);
+		return userRepo.getById(ID);
 	}
 
 	public void update(Users user) {
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
-		ses.update(user);
-		tx.commit();
+		userRepo.save(user);
 	}
 
 	public Users selectByUsername(String username) {
-		Session ses = HibernateUtil.getSession();
+		Optional<Users> test = userRepo.findByUsername(username);
+		return test.orElse(null);
+	}
 
-		// Users user = (Users)ses.createQuery("from Users where name='"+username+"'
-		// ",Users.class);
-		// Not sure what this will return if users doesn't exist?
-		return (Users) ses.createCriteria(Users.class).add(Restrictions.like("username", username));
+	public Users selectByEmail(String email) {
+		Optional<Users> test = userRepo.findByEmail(email);
+		return test.orElse(null);
+	}
+
+	public void removeById(int Id) {
+		userRepo.deleteById(Id);
 	}
 }
