@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.revature.data.UserRepository;
 import com.revature.model.Users;
 
+@Repository
 public class UsersDao {
 
 	@Autowired
@@ -15,6 +17,9 @@ public class UsersDao {
 
 	public int insert(Users user) {
 		Users i = userRepo.save(user);
+
+		System.out.println("Insertion in Dao:");
+		System.out.println(i);
 		return i.getId();
 	}
 
@@ -23,6 +28,7 @@ public class UsersDao {
 	}
 
 	public Users selectById(int ID) {
+		System.out.println("ID in Dao: " + ID);
 		return userRepo.getById(ID);
 	}
 
@@ -31,11 +37,13 @@ public class UsersDao {
 	}
 
 	public Users selectByUsername(String username) {
+		System.out.println("Username in Dao: " + username);
 		Optional<Users> test = userRepo.findByUsername(username);
 		return test.orElse(null);
 	}
 
 	public Users selectByEmail(String email) {
+		System.out.println("Email in Dao: " + email);
 		Optional<Users> test = userRepo.findByEmail(email);
 		return test.orElse(null);
 	}

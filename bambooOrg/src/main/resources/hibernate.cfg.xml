@@ -38,7 +38,7 @@
       
       <!-- List of XML mapping files -->
       <!-- <mapping resource = "Employee.hbm.xml"/> -->
-      <mapping class = "com.revature.model.Users"/>  
+      <mapping class = "com.revature.model.Users"/>   
       
    </session-factory>
 </hibernate-configuration>

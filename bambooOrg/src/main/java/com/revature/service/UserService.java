@@ -1,5 +1,6 @@
 package com.revature.service;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -7,11 +8,17 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.revature.dao.UsersDao;
 import com.revature.model.Users;
 
+@Service
 public class UserService {
-	private static UsersDao cdao = new UsersDao();
+
+	@Autowired
+	private UsersDao cdao;
 	private Validator validator;
 
 	public String register(Users user) {
@@ -32,16 +39,18 @@ public class UserService {
 		if ((compared != null) && compared.getPwd().equals(user.getPwd())) {
 			return compared.getUsername();
 		}
-		compared = cdao.selectByEmail(user.getEmail());
+		compared = cdao.selectByEmail(user.getUsername());
 		if ((compared != null) && compared.getPwd().equals(user.getPwd())) {
 			return compared.getUsername();
 		}
 		return "";
 	}
 
-
 	public Users getUserById(int Id) {
-		return cdao.selectById(Id);
+		Users test = cdao.selectById(Id);
+		System.out.println("Here's Test:");
+		System.out.println(test);
+		return test;
 	}
 
 	public Users getUserByUsername(String username) {
@@ -54,6 +63,10 @@ public class UserService {
 
 	public void deleteUserById(int id) {
 		cdao.removeById(id);
+	}
+
+	public List<Users> getAllUsers() {
+		return cdao.selectAll();
 	}
 
 }

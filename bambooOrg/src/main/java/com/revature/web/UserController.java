@@ -1,5 +1,7 @@
 package com.revature.web;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -24,27 +26,37 @@ public class UserController {
 
 	@PostMapping("/add")
 	public ResponseEntity<String> addUser(@RequestBody Users u) {
+		System.out.println(u);
 		return ResponseEntity.ok(userServ.register(u));
 	}
 
-	@GetMapping("/login")
+	@PostMapping("/login")
 	public ResponseEntity<String> logInUser(@RequestBody Users u) {
 		return ResponseEntity.ok(userServ.login(u));
 	}
 
 	@GetMapping("/getById/{id}")
 	public ResponseEntity<Users> getUserById(@PathVariable("id") int id) {
+		System.out.println("ID: " + id);
 		return ResponseEntity.ok(userServ.getUserById(id));
 	}
 
 	@GetMapping("/getByUsername/{username}")
 	public ResponseEntity<Users> getUserByUsername(@PathVariable("username") String username) {
+		System.out.println("Username: " + username);
 		return ResponseEntity.ok(userServ.getUserByUsername(username));
 	}
 
 	@GetMapping("/getByEmail/{email}")
 	public ResponseEntity<Users> getUserByEmail(@PathVariable("email") String email) {
-		return ResponseEntity.ok(userServ.getUserByUsername(email));
+		System.out.println("Email: " + email);
+		return ResponseEntity.ok(userServ.getUserByEmail(email));
+	}
+
+	@GetMapping("/all")
+	public ResponseEntity<List<Users>> getAllUsers() {
+		System.out.println("Getting all");
+		return ResponseEntity.ok(userServ.getAllUsers());
 	}
 
 	@DeleteMapping("/{id}")
