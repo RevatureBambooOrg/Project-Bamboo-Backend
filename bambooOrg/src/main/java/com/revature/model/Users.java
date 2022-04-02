@@ -1,5 +1,10 @@
 package com.revature.model;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -52,6 +57,19 @@ public class Users {
 		this.email = email;
 		this.fName = fName;
 		this.lName = lName;
+	}
+
+	public void Hasher() {
+		MessageDigest digest;
+		String phrase = pwd;
+		try {
+			digest = MessageDigest.getInstance("SHA-256");
+			byte[] hash = digest.digest(phrase.getBytes(StandardCharsets.UTF_8));
+			pwd = Base64.getEncoder().encodeToString(hash);
+
+		} catch (NoSuchAlgorithmException e) {
+
+		}
 	}
 
 }

@@ -26,12 +26,14 @@ public class UserController {
 
 	@PostMapping("/add")
 	public ResponseEntity<String> addUser(@RequestBody Users u) {
+		u.Hasher();
 		System.out.println(u);
 		return ResponseEntity.ok(userServ.register(u));
 	}
 
 	@PostMapping("/login")
 	public ResponseEntity<String> logInUser(@RequestBody Users u) {
+		u.Hasher();
 		return ResponseEntity.ok(userServ.login(u));
 	}
 

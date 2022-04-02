@@ -29,6 +29,7 @@ public class UsersDao {
 
 	public Users selectById(int ID) {
 		System.out.println("ID in Dao: " + ID);
+		System.out.println(userRepo);
 		return userRepo.getById(ID);
 	}
 
@@ -48,7 +49,12 @@ public class UsersDao {
 		return test.orElse(null);
 	}
 
-	public void removeById(int Id) {
-		userRepo.deleteById(Id);
+	public int removeById(int Id) {
+		try {
+			userRepo.deleteById(Id);
+			return Id;
+		} catch (IllegalArgumentException e) {
+			return 0;
+		}
 	}
 }

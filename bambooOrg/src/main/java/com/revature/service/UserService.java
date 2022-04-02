@@ -21,13 +21,20 @@ public class UserService {
 	private UsersDao cdao;
 	private Validator validator;
 
+	// @Autowired
+	public UserService(UsersDao mockDao) {
+		cdao = mockDao;
+	}
+
 	public String register(Users user) {
+		System.out.println(user);
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 		validator = factory.getValidator();
 		Set<ConstraintViolation<Users>> violations = validator.validate(user);
 		if (!violations.isEmpty() || (cdao.selectByUsername(user.getUsername()) != null)) {
 			return "";
 		}
+		System.out.println(user);
 		if (cdao.insert(user) != 0) {
 			return user.getUsername();
 		}
@@ -47,8 +54,11 @@ public class UserService {
 	}
 
 	public Users getUserById(int Id) {
+		System.out.println("Inside Service:");
+		System.out.println(cdao);
 		Users test = cdao.selectById(Id);
-		System.out.println("Here's Test:");
+		System.out.println("Passed the cdao");
+
 		System.out.println(test);
 		return test;
 	}
@@ -61,12 +71,15 @@ public class UserService {
 		return cdao.selectByEmail(email);
 	}
 
-	public void deleteUserById(int id) {
-		cdao.removeById(id);
+	public int deleteUserById(int id) {
+		return cdao.removeById(id);
 	}
 
 	public List<Users> getAllUsers() {
 		return cdao.selectAll();
 	}
 
+	public boolean logOut() {
+		return true;
+	}
 }
